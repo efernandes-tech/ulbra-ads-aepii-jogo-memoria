@@ -229,7 +229,7 @@ main() {
 		printf("Parabens %s!", nome);
 
 		gotoxy(4,4);
-		printf("voce fez %.1f pontos!", (pontuacao < 0) ? 0 : pontuacao);
+		printf("Voce fez %.1f pontos!", (pontuacao < 0) ? 0 : pontuacao);
 	} else {
 		gotoxy(4,4);
 		printf("Volte sempre %s!", nome);
