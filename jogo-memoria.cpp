@@ -184,6 +184,11 @@ main() {
 			// Cartas sao marcadas como acerto.
 			reveladas[palpite_linha[0]][palpite_coluna[0]] = 1;
 			reveladas[palpite_linha[1]][palpite_coluna[1]] = 1;
+			
+			palpite_linha[0] = -1;
+			palpite_linha[1] = -1;
+			palpite_coluna[0] = -1;
+			palpite_coluna[1] = -1;
 
 			pontuacao += 10;
 		} else {
@@ -205,11 +210,10 @@ main() {
 		}
 
 		// verifica se ganhou quando todas forem reveladas
+		ganhou = 1;
 		for(i = 0; i < 4; i++) {
 			for(j = 0; j < 5; j++) {
-				if (reveladas[i][j] == 1)
-					ganhou = 1;
-				else
+				if (reveladas[i][j] == 0)
 					ganhou = 0;
 			}
 		}
