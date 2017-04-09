@@ -77,6 +77,8 @@ main() {
 	int ganhou = 0;
 	
 	int i, j;
+	
+	float pontuacao = 0;
 
 	clrscr();
 
@@ -92,6 +94,9 @@ main() {
 	
 		gotoxy(4,2);
 		printf("Jogo da Memoria");
+		
+		gotoxy(30, 2);
+		printf("%0.1f", pontuacao);
 	  
 		// coletar os dois palpites.
 		int palpite_linha[2] = {-1,-1};
@@ -142,9 +147,13 @@ main() {
 			printf("Vc acertou!");
 			reveladas[palpite_linha[0]][palpite_coluna[0]] = 1;
 			reveladas[palpite_linha[1]][palpite_coluna[1]] = 1;
+			
+			pontuacao += 10;
 		} else {
 			gotoxy(4,15);
 			printf("Vc errou!");
+			
+			pontuacao -= 2.5;
 		}
 		
 		getch();
@@ -166,6 +175,8 @@ main() {
 	clrscr();
 	gotoxy(4,2);
 	printf("Fim!");
+	
+	// exibir o ranking.
 
 	getch();
 }
