@@ -8,7 +8,7 @@ void exibe_cartas(int cartas[4][5], int reveladas[4][5], int palpite_linha[2], i
 
 	// Exibir as opcoes para linha.
 	for(i = 1; i <= 4; i++) {
-		gotoxy(4, 6+i*2);
+		gotoxy(4, 4+i*2);
 		printf("  %i  ", i);
 	}
 
@@ -136,14 +136,14 @@ main() {
 		exibe_cartas(cartas, reveladas, palpite_linha, palpite_coluna);
 
 		while(cont < 2) {	
-			gotoxy(4,18+cont*4);
+			gotoxy(4,15+cont*4);
 			printf("Digite uma linha: ");
 			scanf(" %i",&linha);
 
 			// Palpite de linha deve ser menos 1 pq a matriz inicia em 0.
 			palpite_linha[cont] = linha - 1;
 
-			gotoxy(4,20+cont*4);
+			gotoxy(4,17+cont*4);
 			printf("Digite uma coluna: ");
 			scanf(" %c",&coluna);
 
@@ -176,8 +176,9 @@ main() {
 		}
 
 		// Testa os dois palpites.
-		if (cartas[palpite_linha[0]][palpite_coluna[0]] == cartas[palpite_linha[1]][palpite_coluna[1]]) {
-			gotoxy(4,14);
+		if ((cartas[palpite_linha[0]][palpite_coluna[0]] == cartas[palpite_linha[1]][palpite_coluna[1]])
+			&& (palpite_linha[0] != palpite_linha[1] || palpite_coluna[0] != palpite_coluna[1])) {
+			gotoxy(4,23);
 			printf("Voce acertou!");
 
 			// Cartas sao marcadas como acerto.
@@ -186,15 +187,15 @@ main() {
 
 			pontuacao += 10;
 		} else {
-			gotoxy(4,14);
+			gotoxy(4,23);
 			printf("Voce errou!");
 
 			pontuacao -= 2.5;
 		}
 
-		gotoxy(4,16);
+		gotoxy(4,25);
 		printf("Continuar (S/N)?  ");
-		scanf("%c", &continuar);
+		continuar = getch();
 
 		continuar = toupper(continuar);
 
@@ -206,16 +207,14 @@ main() {
 		// verifica se ganhou quando todas forem reveladas
 		for(i = 0; i < 4; i++) {
 			for(j = 0; j < 5; j++) {
-				if (reveladas[i][j] == 0) {
-					ganhou = 0;
-					break;
-				}
-				else
+				if (reveladas[i][j] == 1)
 					ganhou = 1;
+				else
+					ganhou = 0;
 			}
 		}
 
-	} while (!ganhou || !perdeu);
+	} while (!ganhou && !perdeu);
 
 	clrscr();
 	gotoxy(4,2);
