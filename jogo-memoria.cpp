@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <conio.c>
+#include <time.h>
 
 exibe_cartas(int cartas[4][5], int reveladas[4][5], int palpite_linha[2], int palpite_coluna[2]) {
 	int i, j, cont, aux;
@@ -67,17 +68,46 @@ main() {
 		{1,2,3,4,5},
 		{6,7,8,9,10}
 	};
-	int reveladas[4][5] = {
-		{0,0,0,0,0},
-		{0,0,0,0,1},
-		{0,0,0,0,0},
-		{0,0,0,0,1}
-	};
-	
-	int ganhou = 0;
 	
 	int i, j;
 	
+	/*
+		Percorre todos os valores da matriz
+		e troca por uma posicao aleatoria.
+	*/
+	int segundos = 0, linha = 0, coluna = 0, aux = 0;
+	// Gera um timestamp.
+	segundos = time(0);
+	// Semear com os segundos para evitar que o numero aleatorio seja sempre o mesmo.
+	srand(segundos);
+	for(i = 0; i < 4; i++) {
+		for(j = 0; j < 5; j++) {
+			// Gera um numero de 0 a 4.
+			linha = rand() % 4;
+			// Gera um numero de 0 a 5.
+			coluna = rand() % 5;
+			// Realiza a troca dos numeros.
+			aux = cartas[i][j];
+			cartas[i][j] = cartas[linha][coluna];
+			cartas[linha][coluna] = aux;
+		}
+	}
+	
+	/*int reveladas[4][5] = {
+		{0,0,0,0,0},
+		{0,0,0,0,0},
+		{0,0,0,0,0},
+		{0,0,0,0,0}
+	};*/
+	int reveladas[4][5] = {
+		{1,1,1,1,1},
+		{1,1,1,1,1},
+		{1,1,1,1,1},
+		{1,1,1,1,1}
+	};
+	
+	int ganhou = 0;
+
 	float pontuacao = 0;
 
 	clrscr();
@@ -95,9 +125,9 @@ main() {
 		gotoxy(4,2);
 		printf("Jogo da Memoria");
 		
-		gotoxy(30, 2);
-		printf("%0.1f", pontuacao);
-	  
+		gotoxy(32, 2);
+		printf("%.1f", pontuacao);
+
 		// coletar os dois palpites.
 		int palpite_linha[2] = {-1,-1};
 		int palpite_coluna[2] = {-1,-1};
@@ -176,7 +206,11 @@ main() {
 	gotoxy(4,2);
 	printf("Fim!");
 	
-	// exibir o ranking.
+	gotoxy(4,4);
+	printf("Parabens %s!", nome);
+	
+	gotoxy(4,4);
+	printf("voce fez %.1f pontos!", (pontuacao < 0) ? 0 : pontuacao);
 
 	getch();
 }
