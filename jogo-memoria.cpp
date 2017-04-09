@@ -1,9 +1,27 @@
+/*
+Enunciado:
+Crie um jogo da memória, onde um jogador deve adivinhar a posição de todos os
+pares de números de 1 a 10 dentro de uma matriz. O sistema deve gerar uma matriz
+de 4x5, com pares de números de 1 a 10, em posições aleatórias a cada
+inicialização do jogo. O sistema exibe na tela a matriz sem os números
+(imagem 1). A cada rodada o jogador deve escolher uma letra para a coluna e um
+número para a linha, e o sistema revela o número, então o jogador escolhe outra
+linha e coluna. Se os dois números forem iguais, eles permanecem revelados
+(imagem 2) e o jogador ganha 10 pontos. Se não forem iguais, o jogador perde 2,5
+pontos, os números são escondidos e a próxima rodada é iniciada. Quando todos os
+números forem revelados, o jogo termina, e a pontuação é exibida para o jogador.
+
+Aluno: Éderson Luis dos Reis Fernandes
+Aluno: Tayson Barbosa Alves
+*/
+
 #include <stdio.h>
 #include <conio.c>
 #include <time.h>
 
-void exibe_cartas(int cartas[4][5], int reveladas[4][5], int palpite_linha[2], int palpite_coluna[2]) {
-	int i, j, cont, nao_eh_palpite;
+void exibe_cartas(int cartas[4][5], int reveladas[4][5], int p_linha[2], int p_coluna[2]) {
+	int i, j, cont;
+	int nao_eh_palpite;
 	char colunas[5] = {'A','B','C','D','E'};
 
 	// Exibir as opcoes para linha.
@@ -21,17 +39,18 @@ void exibe_cartas(int cartas[4][5], int reveladas[4][5], int palpite_linha[2], i
 	// Exibir a matriz.
 	for(i = 0; i < 4; i++) {
 		for(j = 0; j < 5; j++) {
-			nao_eh_palpite = 1;
 			cont = 0;
-			// Percorre os palpites para verificar se a celula atual deve ser exibida como um palpite.
+			nao_eh_palpite = 1;
+			// Verificar se a celula atual deve ser exibida como um palpite.
 			while(cont < 2) {
-				if (palpite_linha[cont] == i && palpite_coluna[cont] == j) {
+				if (p_linha[cont] == i && p_coluna[cont] == j) {
 					gotoxy(9+j*5, 5+i*2);
 					printf("-----");
 					gotoxy(9+j*5, 6+i*2);
 					printf("|> %i ", cartas[i][j]);
 					gotoxy(9+j*5, 7+i*2);
 					printf("-----");
+
 					nao_eh_palpite = 0;
 				}
 				cont++;
@@ -73,10 +92,10 @@ main() {
 	};
 
 	/*
-		Percorre todos os valores da matriz
-		e troca por uma posicao aleatoria.
+		Percorre todos os valores da matriz e troca por uma posicao aleatoria.
 	*/
-	int i, j, segundos = 0, linha = 0, coluna = 0, aux = 0;
+	int i, j;
+	int segundos = 0, linha = 0, coluna = 0, aux = 0;
 	// Gera um timestamp.
 	segundos = time(0);
 	// Semear com os segundos para evitar que o numero aleatorio seja sempre o mesmo.
@@ -87,6 +106,7 @@ main() {
 			linha = rand() % 4;
 			// Gera um numero de 0 a 5.
 			coluna = rand() % 5;
+
 			// Realiza a troca dos numeros.
 			aux = cartas[i][j];
 			cartas[i][j] = cartas[linha][coluna];
@@ -150,7 +170,7 @@ main() {
 			// Muda para caixa alta assim o jogador pode digitar 'a' ou 'A'. 
 			coluna = toupper(coluna);
 
-			// Troca o palpite de coluna de letra para numero pq o indice da matriz e numerico.
+			// Troca de letra para numero pq o indice da matriz e numerico.
 			switch(coluna) {
 				case 'A':
 					palpite_coluna[cont] = 0;
@@ -175,7 +195,7 @@ main() {
 			cont++;
 		}
 
-		// Testa os dois palpites.
+		// Testa se os dois palpites sao iguais && nao sao a mesma celula.
 		if ((cartas[palpite_linha[0]][palpite_coluna[0]] == cartas[palpite_linha[1]][palpite_coluna[1]])
 			&& (palpite_linha[0] != palpite_linha[1] || palpite_coluna[0] != palpite_coluna[1])) {
 			gotoxy(4,23);
@@ -209,7 +229,7 @@ main() {
 			break;
 		}
 
-		// verifica se ganhou quando todas forem reveladas
+		// Verifica se ganhou quando todas forem reveladas.
 		ganhou = 1;
 		for(i = 0; i < 4; i++) {
 			for(j = 0; j < 5; j++) {
