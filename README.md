@@ -1,6 +1,6 @@
-#ulbra-ads-aepii-jogo-memoria
+# ulbra-ads-aepii-jogo-memoria
 
-- Exercicio.
-- Disciplina Algoritmos II
-- Curso de Analise e Desenvolvimento de Sistemas
+- Trabalho.
+- Disciplina de Algoritmos II
+- Curso de Análise e Desenvolvimento de Sistemas
 - ULBRA Canoas-RS 2017/2
